@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "generado": "2026-10-24T21:35:51.445Z",
+  "fuente": "reloj-orbita.mp4",
+  "frames": 120,
+  "fps": 20,
+  "pad": 4,
+  "formatos": [
+    "webp",
+    "avif"
+  ],
+  "variantes": {
+    "escritorio": {
+      "ancho": 1920,
+      "alto": 1080,
+      "ruta": "escritorio/{i}.{ext}",
+      "poster": "poster-escritorio.webp",
+      "bytes": 8950052
+    },
+    "movil": {
+      "ancho": 608,
+      "alto": 1080,
+      "ruta": "movil/{i}.{ext}",
+      "poster": "poster-movil.webp",
+      "bytes": 6596940
+    }
+  },
+  "videoScrub": {
+    "escritorio": "scrub-escritorio.mp4",
+    "movil": "scrub-movil.mp4"
+  }
+}

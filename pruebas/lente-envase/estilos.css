@@ -1,0 +1,57 @@
+* { box-sizing: border-box; margin: 0; }
+html { background: #0b0b0c; color: #f2efe9; font: 16px/1.5 system-ui, sans-serif; }
+button { font: inherit; cursor: pointer; }
+
+/* 1 · Slider de sabores */
+.slider { --fondo: #5b2bd6; --acento: #c6ff3d; position: relative; height: 100svh; overflow: hidden;
+  background: radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--fondo) 75%, #fff) 0, var(--fondo) 60%);
+  transition: background-color .9s; display: grid; place-items: center; }
+.slider__titulo { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; pointer-events: none;
+  font: italic 900 clamp(4rem, 17vw, 15rem)/1 "Arial Black", system-ui, sans-serif; color: var(--acento); letter-spacing: -.04em; }
+.slider__titulo span { display: block; will-change: transform; }
+.slider__lata { position: relative; width: min(46vh, 70vw); height: min(78vh, 118vw); z-index: 2;
+  filter: drop-shadow(0 30px 40px rgba(0,0,0,.35)); }
+.slider__frutas { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.fruta { position: absolute; left: var(--x); top: var(--y); width: var(--t); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--acento) 60%, #fff), var(--acento) 45%, color-mix(in srgb, var(--acento) 40%, #000));
+  transition: background .9s; }
+.fruta:not(.fruta--cerca) { z-index: -1; filter: blur(1px); }
+.fruta--cerca { filter: blur(6px); }
+.slider__flecha { position: absolute; z-index: 4; top: 50%; width: 52px; height: 52px; border-radius: 50%; border: 0;
+  background: rgba(255,255,255,.85); color: #111; font-size: 28px; line-height: 1; }
+/* El cuerpo de la lata mide ~0,36 del alto del canvas: las flechas, justo fuera. */
+.slider__flecha--ant { left: calc(50% - min(14vh, 21vw) - 72px); }
+.slider__flecha--sig { right: calc(50% - min(14vh, 21vw) - 72px); }
+.slider__texto { position: absolute; bottom: 24px; left: 0; right: 0; text-align: center; z-index: 4; font-size: 14px; opacity: .85; }
+
+/* 2 · HUD ligado al scroll */
+.hud { height: 300vh; position: relative; background: #050505; }
+.hud__escena { position: sticky; top: 0; height: 100svh; display: grid; place-items: center; overflow: hidden; }
+.hud__foto { height: 70svh; width: auto; max-width: 90vw; object-fit: contain; filter: sepia(var(--crudo, 1)) saturate(calc(1 - var(--crudo, 1) * .6)) brightness(calc(1.25 - var(--crudo, 1) * .2)); }
+.hud__panel { position: absolute; top: 12vh; right: 6vw; text-align: right; font-variant-numeric: tabular-nums; }
+.hud__n { font-size: clamp(2.5rem, 7vw, 5rem); line-height: 1; display: block; }
+.hud__panel span { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; opacity: .75; }
+.hud__fila { display: flex; gap: 18px; justify-content: flex-end; margin-top: 10px; }
+.hud__fila span { font-size: 14px; opacity: 1; }
+.hud__barra { margin-top: 12px; height: 2px; background: rgba(255,255,255,.2); }
+.hud__barra i { display: block; height: 100%; background: #ff8a1f; transform-origin: left; transform: scaleX(var(--p, 0)); }
+
+/* 3 · Lente */
+.escaneo { min-height: 100svh; padding: 10vh 6vw; background: #000; display: grid; justify-items: center; gap: 14px; text-align: center; }
+.escaneo h2 { font: 600 clamp(2rem, 5vw, 3.6rem)/1.05 system-ui, sans-serif; letter-spacing: -.03em; }
+.escaneo em { font-family: Georgia, serif; font-weight: 400; }
+.modos { display: inline-flex; gap: 6px; padding: 4px; border-radius: 999px; background: #1b1b1d; }
+.modos button { border: 0; border-radius: 999px; padding: 6px 16px; background: none; color: #aaa; }
+.modos button[aria-pressed="true"] { background: #f2efe9; color: #111; }
+.revelado { position: relative; width: min(80vw, 52svh); aspect-ratio: 611 / 739; }
+.revelado__capa { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.revelado__anillo { border: 1px solid rgba(160, 210, 255, .8); box-shadow: 0 0 0 6px rgba(160,210,255,.08), inset 0 0 30px rgba(120,190,255,.25);
+  background: repeating-conic-gradient(from 0deg, rgba(160,210,255,.7) 0 .6deg, transparent .6deg 15deg);
+  -webkit-mask: radial-gradient(circle, transparent calc(100% - 7px), #000 calc(100% - 6px)); mask: radial-gradient(circle, transparent calc(100% - 7px), #000 calc(100% - 6px)); }
+
+/* 4 · Cortina */
+.cortina { height: 250vh; position: relative; background: #000; }
+.cortina__escena { position: sticky; top: 0; height: 100svh; display: grid; place-items: center; }
+.pie { padding: 40px; text-align: center; opacity: .6; font-size: 13px; }
+
+@media (prefers-reduced-motion: reduce) { .slider, .fruta { transition: none; } }

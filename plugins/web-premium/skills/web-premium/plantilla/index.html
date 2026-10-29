@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{{TITULO}}</title>
+  <meta name="description" content="{{DESCRIPCION}}">
+  <meta name="theme-color" content="{{COLOR_FONDO}}">
+  <!-- Favicon vacío para que no salga un 404 en la consola (verificar-scroll lo cuenta como error). Cámbialo por el de la marca. -->
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/src/estilos.css">
+  <!-- Precarga del póster del hero (LCP). Ajusta la ruta o bórralo si el hero no es una imagen. -->
+  <!-- <link rel="preload" as="image" href="/frames/x/poster-escritorio.webp" fetchpriority="high"> -->
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+  <header class="nav" role="banner">
+    <a class="nav__marca" href="/">{{MARCA}}</a>
+    <nav aria-label="Principal"><!-- enlaces --></nav>
+  </header>
+
+  <main id="contenido">
+    <!-- Secciones: cada técnica con su maqueta de referencia (ver references de cada skill).
+         Regla: todo el texto importante en HTML real; canvas y vídeos con aria-hidden. -->
+  </main>
+
+  <footer class="pie"><!-- créditos de activos CC-BY aquí --></footer>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

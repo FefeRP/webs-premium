@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "capas": [
+    {
+      "nombre": "sombra",
+      "fichero": "sombra.webp",
+      "caja": {
+        "x": 382,
+        "y": 626,
+        "w": 856,
+        "h": 358
+      },
+      "cajaPct": {
+        "left": 23.875,
+        "top": 52.167,
+        "width": 53.5,
+        "height": 29.833
+      }
+    }
+  ],
+  "ancho": 1600,
+  "alto": 1200,
+  "modo": "sintetica"
+}

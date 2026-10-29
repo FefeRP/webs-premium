@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Orbe Cronógrafo 01 · Oro de 18 quilates sobre titanio</title>
+  <meta name="description" content="Orbe 01: cronógrafo de 46 mm con caja de titanio grado 5 y bisel en oro de 18 quilates. Gíralo con el scroll y míralo en 3D.">
+  <meta name="theme-color" content="#171412">
+  <link rel="icon" href="data:,">
+  <meta property="og:title" content="Orbe Cronógrafo 01">
+  <meta property="og:description" content="Titanio grado 5, bisel de oro de 18 quilates, 46 mm. Serie de 300 unidades.">
+  <meta property="og:image" content="/frames/reloj/escritorio/0060.webp">
+  <link rel="stylesheet" href="/src/estilos.css">
+  <!-- Precarga del sujeto del hero (LCP) -->
+  <link rel="preload" as="image" href="/frames/reloj/escritorio/0060.webp" fetchpriority="high">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+  <header class="nav" role="banner">
+    <a class="nav__marca" href="/">Orbe</a>
+    <nav aria-label="Principal">
+      <ul class="nav__enlaces">
+        <li><a href="#secuencia">El giro</a></li>
+        <li><a href="#ficha">Ficha</a></li>
+        <li><a href="#vivo">Míralo tú</a></li>
+        <li><a href="#reservar">Reservar</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="contenido">
+    <!-- 1 · HERO con capas (parallax-capas). Orden de planos: halo < anillos < nombre < reloj < brillo < polvo -->
+    <section class="hero" data-parallax aria-labelledby="hero-titulo">
+      <div class="hero__capa hero__capa--halo" data-profundidad="-0.8" aria-hidden="true"></div>
+      <div class="hero__capa hero__capa--anillos" data-profundidad="-0.4" aria-hidden="true">
+        <svg class="anillos" viewBox="-500 -500 1000 1000" focusable="false">
+          <defs>
+            <!-- 60 muescas de minutos y 12 índices horarios, hechos con trazos discontinuos -->
+            <circle id="pista-minutos" r="430" fill="none" stroke="currentColor" stroke-width="10" pathLength="60" stroke-dasharray="0.06 0.94" />
+          </defs>
+          <circle r="480" fill="none" stroke="currentColor" stroke-width="1" opacity=".35" />
+          <use href="#pista-minutos" opacity=".55" />
+          <circle r="430" fill="none" stroke="currentColor" stroke-width="28" pathLength="12" stroke-dasharray="0.03 0.97" opacity=".8" />
+          <circle r="395" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".5" />
+          <circle r="340" fill="none" stroke="currentColor" stroke-width=".8" stroke-dasharray="2 9" opacity=".45" />
+          <circle r="250" fill="none" stroke="currentColor" stroke-width=".8" opacity=".25" />
+          <g class="anillos__cifras" font-size="22" text-anchor="middle" dominant-baseline="middle" fill="currentColor" opacity=".7">
+            <text x="0" y="-458">60</text><text x="458" y="0">15</text><text x="0" y="458">30</text><text x="-458" y="0">45</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="hero__nombre">
+        <h1 id="hero-titulo"><span class="hero__marca">Orbe</span><span class="visualmente-oculto"> Cronógrafo 01</span></h1>
+      </div>
+
+      <img class="hero__capa hero__sujeto" data-profundidad="0" src="/frames/reloj/escritorio/0060.webp" width="1920" height="1080"
+           alt="Orbe 01 de frente: bisel dorado, esfera negra con subesferas y correa de caucho" fetchpriority="high" decoding="async">
+
+      <div class="hero__capa hero__capa--brillo" data-profundidad="0.25" aria-hidden="true"></div>
+      <div class="hero__capa hero__capa--polvo" data-profundidad="0.7" aria-hidden="true">
+        <i style="--x:12%;--y:22%;--t:5px"></i><i style="--x:21%;--y:68%;--t:3px"></i><i class="lejos" style="--x:30%;--y:40%;--t:9px"></i>
+        <i style="--x:36%;--y:84%;--t:4px"></i><i style="--x:44%;--y:15%;--t:3px"></i><i class="cerca" style="--x:74%;--y:62%;--t:16px"></i>
+        <i style="--x:63%;--y:30%;--t:4px"></i><i style="--x:71%;--y:58%;--t:6px"></i><i class="lejos" style="--x:79%;--y:20%;--t:8px"></i>
+        <i style="--x:86%;--y:72%;--t:3px"></i><i class="cerca" style="--x:91%;--y:38%;--t:22px"></i><i style="--x:8%;--y:50%;--t:4px"></i>
+        <i style="--x:50%;--y:92%;--t:3px"></i><i style="--x:67%;--y:10%;--t:5px"></i><i class="cerca" style="--x:16%;--y:86%;--t:14px"></i>
+        <i style="--x:26%;--y:12%;--t:3px"></i><i style="--x:83%;--y:88%;--t:4px"></i><i style="--x:95%;--y:12%;--t:3px"></i>
+      </div>
+
+      <div class="hero__pie">
+        <p class="hero__promesa">Cronógrafo 01. Caja de titanio grado 5 de 46&nbsp;mm, bisel de oro de 18&nbsp;quilates y cristal de zafiro de 2,1&nbsp;mm.</p>
+        <p class="hero__baja" aria-hidden="true">Baja para verlo girar</p>
+      </div>
+    </section>
+
+    <!-- 2 · MOMENTO ESTRELLA: secuencia de frames fijada (frame-scrubber) -->
+    <section class="secuencia" id="secuencia" aria-labelledby="secuencia-titulo">
+      <div class="secuencia__escena">
+        <picture>
+          <source media="(max-width: 767px)" srcset="/frames/reloj/poster-movil.webp" width="608" height="1080">
+          <img class="secuencia__poster" src="/frames/reloj/poster-escritorio.webp" width="1920" height="1080"
+               alt="El Orbe 01 de perfil, con la corona y los pulsadores a la vista" loading="lazy" decoding="async">
+        </picture>
+        <canvas class="secuencia__canvas" aria-hidden="true"></canvas>
+        <h2 class="secuencia__titulo" id="secuencia-titulo"><span>Una vuelta</span> al Orbe 01</h2>
+        <div class="secuencia__textos">
+          <div class="dato dato--izq" data-en="0.03">
+            <p class="dato__cifra">46 × 14,2 mm</p>
+            <p>Caja de titanio grado 5 cepillado a mano. 112&nbsp;g con correa: pesa menos de lo que parece.</p>
+          </div>
+          <div class="dato dato--der" data-en="0.36">
+            <p class="dato__cifra">Oro de 18 k</p>
+            <p>Bisel macizo con 60 muescas y esfera negra lacada con tres subesferas para el cronógrafo.</p>
+          </div>
+          <div class="dato dato--izq" data-en="0.69">
+            <p class="dato__cifra">200 m</p>
+            <p>Corona roscada y correa de caucho FKM con trenzado dorado de 24&nbsp;mm y cierre de acero.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 · RESPIRO: ficha con cifras -->
+    <section class="ficha" id="ficha" aria-labelledby="ficha-titulo">
+      <div class="ficha__cabecera">
+        <p class="eyebrow">Ficha técnica</p>
+        <h2 id="ficha-titulo">Hecho para medir, no para presumir.</h2>
+        <p class="ficha__entradilla">Movimiento de cuarzo cronógrafo con módulo de hora mundial en 29 ciudades. Una pila dura cuatro años; el cristal, toda la vida.</p>
+      </div>
+      <dl class="ficha__lista">
+        <div><dt>Diámetro</dt><dd>46<small>mm</small></dd></div>
+        <div><dt>Grosor</dt><dd>14,2<small>mm</small></dd></div>
+        <div><dt>Peso</dt><dd>112<small>g</small></dd></div>
+        <div><dt>Estanqueidad</dt><dd>200<small>m</small></dd></div>
+        <div><dt>Cronómetro</dt><dd>1/100<small>s</small></dd></div>
+        <div><dt>Autonomía</dt><dd>4<small>años</small></dd></div>
+      </dl>
+    </section>
+
+    <!-- 4 · MÍRALO TÚ: 3D real (escena-producto), carga diferida con póster -->
+    <section class="vivo" id="vivo" aria-labelledby="vivo-titulo">
+      <div class="vivo__texto">
+        <p class="eyebrow">Míralo tú</p>
+        <h2 id="vivo-titulo">Gíralo como si lo tuvieras en la mano.</h2>
+        <p>Arrastra el reloj para ver de cerca la corona roscada, los pulsadores de acero y el trenzado de la correa. Al bajar, gira solo.</p>
+        <p class="vivo__ayuda" aria-hidden="true"><span class="vivo__flecha">⟷</span> Arrastra para girarlo</p>
+      </div>
+      <div class="vivo__escena">
+        <img class="vivo__poster" src="/frames/reloj/escritorio/0060.webp" width="1920" height="1080"
+             alt="El Orbe 01 de frente (vista previa mientras carga el modelo 3D)" loading="lazy" decoding="async">
+        <!-- escena-producto.js mete aquí el canvas -->
+      </div>
+    </section>
+
+    <!-- 5 · CIERRE -->
+    <section class="cierre" id="reservar" aria-labelledby="cierre-titulo">
+      <p class="eyebrow">Serie de 300 unidades numeradas</p>
+      <h2 id="cierre-titulo">Orbe 01 · 2.450&nbsp;€</h2>
+      <p class="cierre__texto">Montado y probado a presión en el taller de Sabadell. Entrega en 6 semanas, con estuche de nogal y dos años de garantía.</p>
+      <div class="cierre__acciones">
+        <a class="boton" href="mailto:reservas@orbe.example?subject=Reserva%20Orbe%2001">Reservar el Orbe 01</a>
+        <a class="boton boton--linea" href="#ficha">Ver la ficha técnica</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <p><strong>Orbe</strong> es una marca ficticia creada para una demostración técnica. No se vende nada.</p>
+    <p>Modelo 3D y frames: <a href="https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/ChronographWatch">"Chronograph Watch"</a> de Eric Chadwick, Khronos Group glTF-Sample-Assets, licencia <a href="https://creativecommons.org/licenses/by/4.0/deed.es">CC-BY 4.0</a>. Incluye logotipos de Khronos y DGG, marcas de sus titulares. Modificado: sin placa de fondo, optimizado y renderizado en frames.</p>
+  </footer>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Glòries 33 · Del mapa al edificio</title>
+  <meta name="description" content="Demo de webs-premium: un mapa real que baja con el scroll desde la ciudad hasta un edificio.">
+  <meta name="theme-color" content="#141210">
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
+  <link rel="preconnect" href="https://www.ign.es" crossorigin>
+  <link rel="stylesheet" href="/src/estilos.css">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+  <header class="nav" role="banner">
+    <a class="nav__marca" href="/">Glòries 33</a>
+    <nav aria-label="Principal"><!-- enlaces --></nav>
+  </header>
+
+  <main id="contenido">
+    <section class="intro">
+      <p class="intro__antetitulo">Demo · ubicación de ejemplo</p>
+      <h1>Del mapa de la ciudad a la puerta del edificio</h1>
+      <p class="intro__texto">Baja: la cámara vuela sobre ortofoto real hasta el edificio, sin cortes.</p>
+    </section>
+
+    <!-- Técnica: mapa-zoom-ubicacion. Sección alta + escenario sticky; el progreso del scroll mueve la cámara. -->
+    <section class="mapa" id="ubicacion" aria-labelledby="ubicacion-titulo">
+      <div class="mapa__escenario">
+        <div class="mapa__lienzo" data-mapa></div>
+        <div class="mapa__velo" aria-hidden="true"></div>
+        <div class="mapa__nubes" aria-hidden="true"></div>
+        <div class="mapa__textos">
+          <div class="mapa__paso" data-desde="0" data-hasta="0.28">
+            <p class="mapa__etiqueta">Barcelona</p>
+            <h2 id="ubicacion-titulo">Una ciudad entre el mar y la montaña</h2>
+          </div>
+          <div class="mapa__paso" data-desde="0.3" data-hasta="0.6">
+            <p class="mapa__etiqueta">Sant Martí · 22@</p>
+            <h2>El barrio que más crece</h2>
+          </div>
+          <div class="mapa__paso" data-desde="0.62" data-hasta="0.84">
+            <p class="mapa__etiqueta">Plaça de les Glòries</p>
+            <h2>A cinco minutos de todo</h2>
+          </div>
+        </div>
+        <article class="mapa__ficha" data-ficha>
+          <p class="mapa__etiqueta">Ubicación de ejemplo</p>
+          <h2>Glòries 33</h2>
+          <p>Edificio resaltado detectado en los datos de OpenStreetMap. Aquí entra la foto, el vídeo o el render real del cliente, encuadrado igual que esta última vista.</p>
+          <a class="boton" href="#contacto">Ver disponibilidad</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="cierre" id="contacto">
+      <h2>Y desde aquí, a las viviendas</h2>
+      <p>Después del mapa sigue la web normal: plantas, galería, contacto.</p>
+    </section>
+  </main>
+
+  <footer class="pie">
+    Mapa: <a href="https://openfreemap.org">OpenFreeMap</a> © <a href="https://www.openmaptiles.org/">OpenMapTiles</a>,
+    datos © <a href="https://www.openstreetmap.org/copyright">colaboradores de OpenStreetMap</a> (ODbL).
+    Ortofoto: PNOA cedido por © <a href="https://www.ign.es">Instituto Geográfico Nacional</a> (CC BY 4.0, scne.es).
+    Motor de mapa: MapLibre GL JS (BSD-3-Clause). Ubicación y marca de ejemplo, sin relación con el edificio real.
+  </footer>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

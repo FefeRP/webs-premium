@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Foto de estudio de prueba (para validar capas-sombra.mjs)</title>
+<style>html,body{margin:0;background:#000}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"/node_modules/three/build/three.module.js","three/addons/":"/node_modules/three/examples/jsm/"}}</script>
+</head>
+<body>
+<script type="module">
+// Simula una foto de producto de estudio con sombra real (foco con penumbra sobre fondo continuo claro)
+// y además devuelve lo que en un plató real se consigue con una segunda foto: el "plato limpio" sin producto,
+// y la máscara exacta del producto. Con eso se mide el error de capas-sombra.mjs.
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const q = new URLSearchParams(location.search);
+const W = Number(q.get('w') || 1600), H = Number(q.get('h') || 1200);
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1);
+renderer.setSize(W, H);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+
+const fondo = new THREE.Color('#d9d2c7');
+const scene = new THREE.Scene();
+scene.background = fondo;
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.2;
+
+// fondo continuo: un suelo enorme que llena el encuadre (la cámara mira hacia abajo)
+const suelo = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshStandardMaterial({ color: fondo, roughness: 0.95 }));
+suelo.rotation.x = -Math.PI / 2;
+suelo.receiveShadow = true;
+scene.add(suelo);
+
+// foco lateral bajo: sombra larga con penumbra y caída de luz (el fondo no es uniforme)
+const foco = new THREE.SpotLight('#fff1e0', 95, 0, Math.PI / 5, 0.6, 1.6);
+foco.position.set(-2.6, 2.4, 1.2);
+foco.castShadow = true;
+foco.shadow.mapSize.set(2048, 2048);
+foco.shadow.radius = 6;
+foco.shadow.bias = -0.0004;
+scene.add(foco);
+scene.add(new THREE.HemisphereLight('#dfe6ff', '#b8ab9a', 0.25)); // relleno frío: la sombra queda algo azulada, como en un plató real
+
+const gltf = await new GLTFLoader().loadAsync('/activos/ChronographWatch.glb');
+const modelo = gltf.scene;
+modelo.traverse((o) => { if (o.isMesh) { o.castShadow = true; if (/backplate|plane|fondo/i.test(o.name)) o.visible = false; } });
+const caja = new THREE.Box3().setFromObject(modelo);
+const tam = caja.getSize(new THREE.Vector3()), centro = caja.getCenter(new THREE.Vector3());
+const s = 1 / Math.max(tam.x, tam.y, tam.z);
+modelo.scale.setScalar(s);
+modelo.position.sub(centro.multiplyScalar(s));
+const pivote = new THREE.Group();
+pivote.add(modelo);
+pivote.rotation.y = 0.5;
+scene.add(pivote);
+pivote.position.y = -new THREE.Box3().setFromObject(pivote).min.y; // apoyado en el suelo
+foco.target = pivote;
+
+const camara = new THREE.PerspectiveCamera(32, W / H, 0.01, 100);
+camara.position.set(0.4, 1.9, 2.6);
+camara.lookAt(0.25, 0.35, 0);
+
+const blanco = new THREE.MeshBasicMaterial({ color: '#ffffff' });
+window.renderPase = (pase) => {
+  // foto: todo · plato: sin producto (sin su sombra) · mascara: producto blanco sobre negro
+  pivote.visible = pase !== 'plato';
+  suelo.visible = pase !== 'mascara';
+  scene.background = pase === 'mascara' ? new THREE.Color('#000') : fondo;
+  scene.overrideMaterial = pase === 'mascara' ? blanco : null;
+  renderer.toneMapping = pase === 'mascara' ? THREE.NoToneMapping : THREE.ACESFilmicToneMapping;
+  renderer.render(scene, camara);
+  return renderer.domElement.toDataURL('image/png');
+};
+window.listo = true;
+</script>
+</body>
+</html>

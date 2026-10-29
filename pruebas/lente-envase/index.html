@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prueba: lata que gira, HUD y lente de rayos X (ref10 + ref11)</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="./estilos.css">
+</head>
+<body>
+<main>
+  <!-- 1 · ref10: slider de sabores con la lata que gira (etiqueta plana enrollada en canvas) -->
+  <section class="slider" id="slider" data-sabor="0" aria-label="Sabores">
+    <h1 class="slider__titulo" aria-live="polite"><span>Mora</span></h1>
+    <div class="slider__frutas" aria-hidden="true">
+      <i class="fruta" style="--x:12%;--y:22%;--t:90px;--p:-.4"></i>
+      <i class="fruta" style="--x:78%;--y:18%;--t:60px;--p:-.6"></i>
+      <i class="fruta fruta--cerca" style="--x:6%;--y:72%;--t:170px;--p:.8"></i>
+      <i class="fruta fruta--cerca" style="--x:86%;--y:66%;--t:130px;--p:.6"></i>
+    </div>
+    <canvas class="slider__lata" role="img" aria-label="Lata de Nébula sabor mora"></canvas>
+    <button class="slider__flecha slider__flecha--ant" aria-label="Sabor anterior">‹</button>
+    <button class="slider__flecha slider__flecha--sig" aria-label="Sabor siguiente">›</button>
+    <p class="slider__texto">Prueba de <code>envase-giratorio</code>: la etiqueta es una imagen plana; el giro es código.</p>
+  </section>
+
+  <!-- 2 · ref11: HUD de datos ligado al scroll (sección fijada con sticky) -->
+  <section class="hud" id="hud" aria-label="Datos que cambian con el scroll">
+    <div class="hud__escena">
+      <img class="hud__foto" src="./activos/base.webp" width="611" height="739" alt="Reloj cronógrafo">
+      <div class="hud__panel">
+        <p><b class="hud__n" data-hud="piezas">0</b><span>piezas · cada una ajustada a 0,01 mm</span></p>
+        <p class="hud__fila"><span data-hud="tiempo">00:00</span><span data-hud="grados">20 °C</span><span data-hud="estado">Crudo</span></p>
+        <div class="hud__barra"><i></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · ref11: lente de rayos X / térmica que sigue al cursor -->
+  <section class="escaneo" id="escaneo" aria-label="Mira por dentro">
+    <h2>Visión de rayos X. <em>Sin abrirlo.</em></h2>
+    <p>Pasa el cursor por encima del reloj (en el móvil, arrástralo con el dedo).</p>
+    <div class="modos" role="group" aria-label="Modo de la lente">
+      <button aria-pressed="true" data-a="rayosx">Rayos X</button><button aria-pressed="false" data-a="termica">Térmica</button>
+    </div>
+    <div class="revelado" data-revelado>
+      <img class="revelado__capa" src="./activos/base.webp" width="611" height="739" alt="Reloj cronógrafo dorado">
+      <img class="revelado__capa" data-modo="rayosx" src="./activos/rayosx.webp" alt="" aria-hidden="true">
+      <img class="revelado__capa" data-modo="termica" src="./activos/termica.webp" alt="" aria-hidden="true">
+      <div class="revelado__anillo" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 4 · La misma pareja de imágenes como antes/después ligado al scroll (cortina) -->
+  <section class="cortina" id="cortina" aria-label="Antes y después">
+    <div class="cortina__escena">
+      <div class="revelado" data-revelado-cortina>
+        <img class="revelado__capa" src="./activos/base.webp" width="611" height="739" alt="Reloj cronógrafo dorado">
+        <img class="revelado__capa" data-modo="rayosx" src="./activos/rayosx.webp" alt="" aria-hidden="true">
+      </div>
+    </div>
+  </section>
+  <footer class="pie">Fin de la prueba · activos hechos con código (etiquetas SVG, variantes con ffmpeg) y reloj CC-BY (Khronos)</footer>
+</main>
+<script type="module" src="./main.js"></script>
+</body>
+</html>

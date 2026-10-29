@@ -1,0 +1,35 @@
+{
+  "name": "web-premium",
+  "version": "1.0.0-beta.3",
+  "description": "Claude Code skills for premium websites: cinematic scroll with video frames, the product told from the inside, depth layers with real shadows, 3D glTF, a can that spins without 3D, an X-ray lens under the cursor, AI product photos and a real map that zooms to the building. Master skill: WEB PREMIUM. Skills written in Spanish.",
+  "author": {
+    "name": "FefeRP",
+    "url": "https://github.com/FefeRP"
+  },
+  "homepage": "https://github.com/FefeRP/webs-premium",
+  "repository": "https://github.com/FefeRP/webs-premium",
+  "license": "MIT",
+  "keywords": [
+    "web",
+    "3d",
+    "scroll",
+    "gsap",
+    "lenis",
+    "threejs",
+    "parallax",
+    "frames",
+    "awwwards",
+    "higgsfield",
+    "product-photography",
+    "shadows",
+    "maplibre",
+    "map",
+    "real-estate",
+    "scrollytelling",
+    "landing-page",
+    "webgl",
+    "canvas",
+    "x-ray",
+    "product-page"
+  ]
+}

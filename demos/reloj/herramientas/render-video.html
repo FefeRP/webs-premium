@@ -1,0 +1,71 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Render del vídeo de producto (sustituye al vídeo de Higgsfield en la demo)</title>
+<style>html,body{margin:0;background:#141210}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"/node_modules/three/build/three.module.js","three/addons/":"/node_modules/three/examples/jsm/"}}</script>
+</head>
+<body>
+<script type="module">
+// Simula lo que se pediría a Higgsfield: "slow steady 160° arc + gentle dolly in, product centered,
+// seamless warm dark studio background, soft key light upper left, constant speed, no cuts".
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const W = Number(new URLSearchParams(location.search).get('w') || 1920);
+const H = Number(new URLSearchParams(location.search).get('h') || 1080);
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1);
+renderer.setSize(W, H);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#171412');
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.9;
+
+const key = new THREE.DirectionalLight('#ffe2c4', 2.2); key.position.set(-3, 4, 3); scene.add(key);
+const rim = new THREE.DirectionalLight('#c9d6ff', 1.4); rim.position.set(3, 2, -4); scene.add(rim);
+
+// suelo de contacto: sombra suave falsa (gradiente radial)
+const c = document.createElement('canvas'); c.width = c.height = 256;
+const g = c.getContext('2d'); const gr = g.createRadialGradient(128,128,0,128,128,128);
+gr.addColorStop(0,'rgba(0,0,0,0.55)'); gr.addColorStop(1,'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(0,0,256,256);
+const sombra = new THREE.Mesh(new THREE.PlaneGeometry(1,1), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthWrite: false }));
+sombra.rotation.x = -Math.PI/2; scene.add(sombra);
+
+const camera = new THREE.PerspectiveCamera(30, W / H, 0.01, 100);
+const gltf = await new GLTFLoader().loadAsync('/activos/ChronographWatch.glb');
+const modelo = gltf.scene;
+// centrar y normalizar a altura 1
+const caja = new THREE.Box3().setFromObject(modelo);
+const tam = caja.getSize(new THREE.Vector3()); const centro = caja.getCenter(new THREE.Vector3());
+const s = 1 / Math.max(tam.x, tam.y, tam.z);
+modelo.scale.setScalar(s);
+modelo.position.sub(centro.multiplyScalar(s));
+const pivote = new THREE.Group(); pivote.add(modelo); scene.add(pivote);
+const caja2 = new THREE.Box3().setFromObject(pivote);
+sombra.position.y = caja2.min.y - 0.002; sombra.scale.setScalar(1.6);
+
+const radio0 = 2.6, radio1 = 2.05; // dolly in suave
+window.renderFrame = (t) => {      // t en [0,1], velocidad angular constante
+  const e = t;                       // sin easing: el scrub queda uniforme
+  const ang = THREE.MathUtils.degToRad(-80 + 160 * e);
+  const r = radio0 + (radio1 - radio0) * e;
+  const alt = 0.55 - 0.35 * e;
+  camera.position.set(Math.sin(ang) * r, alt, Math.cos(ang) * r);
+  camera.lookAt(0, 0, 0);
+  renderer.render(scene, camera);
+  return renderer.domElement.toDataURL('image/png');
+};
+window.listo = true;
+</script>
+</body>
+</html>
+

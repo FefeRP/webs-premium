@@ -1,0 +1,33 @@
+# Dependencias y builds
+node_modules/
+dist/
+.vite/
+*.log
+
+# Vídeos de referencia: son de otros creadores. Solo se publican sus análisis escritos (analisis-ref*.md)
+docs/referencias/*.mp4
+docs/referencias/*.mov
+docs/referencias/*.webm
+
+# Secretos y configuración local
+.env
+.env.*
+*.key
+*.pem
+.claude/settings.local.json
+
+# Temporales y documentos internos
+temporal/
+tmp/
+documentos/
+.DS_Store
+Thumbs.db
+
+# Capturas de verificación: solo las hojas resumen
+capturas/**/*
+!capturas/**/
+!capturas/**/hoja-*.png
+
+# Notas internas de trabajo (instrucciones locales de Claude Code) y copias de seguridad
+CLAUDE.md
+backups/

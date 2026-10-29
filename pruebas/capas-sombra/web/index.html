@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prueba: capas con sombra propia (capas-sombra.mjs + capas-parallax.js)</title>
+<style>
+  :root { --fondo: #d9d2c7; --oscuro: #24303a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 400 16px/1.5 system-ui, sans-serif; background: var(--fondo); color: #1d1a17; }
+  h1, h2 { font: 500 clamp(2rem, 5vw, 4.5rem)/1 Georgia, serif; margin: 0; letter-spacing: -0.02em; }
+  p { max-width: 34ch; margin: .8rem 0 0; }
+
+  /* Escena con el mismo encuadre que la foto (4:3) que cubre la pantalla como object-fit: cover */
+  .tramo { position: relative; height: 260vh; view-timeline: --tramo; }
+  .marco { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+  .escena { position: absolute; left: 50%; top: 50%; width: max(100vw, 100svh * 4 / 3); aspect-ratio: 4 / 3; translate: -50% -50%; }
+  .capa { position: absolute; inset: 0; }
+  .capa--fondo { inset: -8%; }                 /* más grande que el marco: el parallax no enseña bordes */
+  .capa--fondo img { width: 100%; height: 100%; object-fit: cover; }
+  [data-capa] { position: absolute; display: block; }
+  .texto { position: absolute; left: 6vw; top: 9svh; z-index: 5; }
+
+  /* Levitar: el producto sube y su sombra (que se queda en el suelo) se encoge, se aclara y se difumina.
+     El desenfoque NO se anima: se cruzan dos copias, una nítida y otra con blur estático. */
+  .sombra { transform-origin: var(--origen-sombra, 50% 90%); }
+  .sombra--difusa { filter: blur(14px); opacity: 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .producto, .sombra { animation-timeline: --tramo; animation-range: contain 10% contain 90%; animation-fill-mode: both; animation-timing-function: linear; }
+      .producto { animation-name: levitar; }
+      .sombra--nitida { animation-name: sombra-nitida; }
+      .sombra--difusa { animation-name: sombra-difusa; }
+      @keyframes levitar { to { translate: 0 -12%; rotate: -4deg; } }
+      /* sin escalar: esta sombra toca el borde de la foto (capas.json avisa) y al encogerla se vería el corte */
+      @keyframes sombra-nitida { to { opacity: 0; } }
+      @keyframes sombra-difusa { to { opacity: .6; } }
+    }
+  }
+
+  .otro-fondo { position: relative; height: 100svh; background: var(--oscuro); color: #efe9e1; overflow: hidden; }
+  .otro-fondo .escena { width: max(100vw, 100svh * 4 / 3); }
+</style>
+</head>
+<body>
+  <section class="tramo" aria-label="Producto con su sombra separada">
+    <div class="marco">
+      <div class="escena" data-parallax>
+        <div class="capa capa--fondo" data-profundidad="-0.6" aria-hidden="true"><img src="capas/fondo.webp" alt=""></div>
+        <div class="capa" data-profundidad="0">
+          <img class="sombra sombra--nitida" data-capa="sombra" src="capas/sombra.webp" alt="">
+          <img class="sombra sombra--difusa" data-capa="sombra" src="capas/sombra.webp" alt="">
+          <img class="producto" data-capa="producto" src="capas/producto.webp" alt="Reloj cronógrafo dorado">
+        </div>
+      </div>
+      <div class="texto"><h1>Capas con sombra</h1><p>Fondo, sombra y producto salen de una sola foto. Al bajar, el producto se eleva y su sombra se queda en el suelo.</p></div>
+    </div>
+  </section>
+
+  <section class="otro-fondo" aria-label="La misma sombra sobre otro fondo">
+    <div class="escena">
+      <img class="sombra" data-capa="sombra" src="capas/sombra.webp" alt="">
+      <img data-capa="producto" src="capas/producto.webp" alt="">
+    </div>
+    <div class="texto"><h2>Otro fondo</h2><p>La sombra es una capa semitransparente: vale sobre cualquier color sin rehacer la foto.</p></div>
+  </section>
+
+<script type="module">
+  import { crearParallax } from './capas-parallax.js';
+  // Coloca cada capa con las cajas en % de capas.json (en producción, escribe estos % en el CSS para evitar saltos de carga)
+  const info = await (await fetch('capas/capas.json')).json();
+  const caja = Object.fromEntries(info.capas.map((c) => [c.nombre, c.cajaPct]));
+  for (const img of document.querySelectorAll('[data-capa]')) {
+    const c = caja[img.dataset.capa];
+    Object.assign(img.style, { left: c.left + '%', top: c.top + '%', width: c.width + '%', height: c.height + '%' });
+  }
+  // la sombra se encoge hacia el punto de contacto: la base del producto, en coordenadas de la caja de la sombra
+  const p = caja.producto, s = caja.sombra;
+  const ox = ((p.left + p.width / 2 - s.left) / s.width) * 100, oy = ((p.top + p.height - s.top) / s.height) * 100;
+  document.documentElement.style.setProperty('--origen-sombra', `${ox.toFixed(1)}% ${oy.toFixed(1)}%`);
+  crearParallax(document.querySelector('[data-parallax]'), { recorrido: 0.12, intensidad: 14 });
+</script>
+</body>
+</html>
